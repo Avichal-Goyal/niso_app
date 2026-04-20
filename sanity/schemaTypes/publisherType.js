@@ -1,0 +1,22 @@
+import { defineField, defineType } from "sanity";
+
+export const publisherType = defineType({
+  name: "publisher",
+  title: "Publisher",
+  type: "document",
+
+  fields: [
+    defineField({
+      name: "name",
+      title: "Publisher Name",
+      type: "string",
+      validation: (Rule) => Rule.required()
+    }),
+  ],
+
+  preview: {
+    select: {
+      title: "name"
+    }
+  }
+});

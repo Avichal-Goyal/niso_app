@@ -1,107 +1,107 @@
 import { defineField, defineType } from "sanity";
 import { BookIcon } from "@sanity/icons";
-import { categoryType } from "./categoryType";
+
 export const bookType = defineType({
-    name: "book",
-    title: "Book",
-    type: "document",
-    icon: BookIcon,
-    groups: [
-        { name: "details", title: "Details", default: true },
-        { name: "media", title: "Media"},
-        { name: "inventory", title: "Inventory"},
-    ],
-    fields: [
-        defineField({
-            name: "name",
-            type: "string",
-            group: "details",
-            validation: (rule) => [rule.required().error("Book name is required")],
-        }),
-        defineField({
-            name: "slug",
-            type: "slug",
-            group: "details",
-            options: {
-                source: "name",
-                maxLength: 96,
-            },
-            validation: (rule) => [
-                rule.required().error("Slug is required for URL generation"),
-            ],
-        }),
-        defineField({
-            name: "description",
-            type: "text",
-            group: "details",
-            rows: 4,
-            description: "Book Description",
-        }),
-        defineField({
-            name: "price",
-            type: "number",
-            group: "details",
-            description: "Price in INR (eg., 599)",
-            validation: (rule) => [
-                rule.required().error("Price is required"),
-                rule.positive().error("Price must be a positive number"),
-            ],
-        }),
-        defineField({
-            name: "category",
-            type: "reference",
-            to: [{ type: "category" }],
-            group: "details",
-            validation: (rule) => [rule.required().error("Category is required")],
-        }),
-        defineField({
-            name: "images",
-            type: "array",
-            group: "media",
-            of: [
-                {
-                type: "image",
-                options: {
-                    hotspot: true,
-                },
-                },
-            ],
-            validation: (rule) => [
-                rule.min(1).error("At least one image is required"),
-            ],
-        }),
-        defineField({
-            name: "stock",
-            type: "number",
-            group: "inventory",
-            initialValue: 0,
-            description: "Number of items in stock",
-            validation: (rule) => [
-                rule.min(0).error("Stock cannot be negative"),
-                rule.integer().error("Stock must be a whole number"),
-            ],
-        }),
-        defineField({
-            name: "featured",
-            type: "boolean",
-            group: "inventory",
-            initialValue: false,
-            description: "Show on homepage and promotions",
-        }),
-    ],
-    preview: {
-        select: {
-        title: "name",
-        subtitle: "category.title",
-        media: "images.0",
-        price: "price",
-        },
-        prepare({ title, subtitle, media, price }) {
-        return {
-            title,
-            subtitle: `${subtitle ? subtitle + " • " : ""}£${price ?? 0}`,
-            media,
-        };
-        },
-    },
-})
+  name: "book",
+  title: "Book",
+  type: "document",
+  icon: BookIcon,
+
+  groups: [
+    { name: "details", title: "Details", default: true },
+    { name: "media", title: "Media"},
+    { name: "inventory", title: "Inventory"},
+  ],
+
+  fields: [
+
+    defineField({
+      name: "name",
+      type: "string"
+    }),
+
+    defineField({
+      name: "slug",
+      type: "slug",
+      options: {
+        source: "name"
+      }
+    }),
+
+    defineField({
+      name: "description",
+      type: "text"
+    }),
+
+    defineField({
+      name: "price",
+      type: "number"
+    }),
+
+    defineField({
+      name: "author",
+      type: "reference",
+      to: [{ type: "author" }]
+    }),
+
+    defineField({
+      name: "publisher",
+      type: "reference",
+      to: [{ type: "publisher" }]
+    }),
+
+    defineField({
+      name: "subjects",
+      type: "array",
+
+      of: [
+        {
+          type: "reference",
+          to: [{ type: "subject" }]
+        }
+      ]
+    }),
+
+    defineField({
+      name: "category",
+      type: "reference",
+      to: [{ type: "category" }]
+    }),
+
+    defineField({
+      name: "images",
+      type: "array",
+
+      of: [
+        {
+          type: "image"
+        }
+      ]
+    }),
+
+    defineField({
+      name: "stock",
+      type: "number"
+    }),
+
+    defineField({
+      name: "featured",
+      type: "boolean"
+    }),
+
+    defineField({
+      name: "isbn",
+      type: "string"
+    })
+
+  ],
+
+  preview: {
+    select: {
+      title: "name",
+      subtitle: "author.name",
+      media: "images.0"
+    }
+  }
+
+});
