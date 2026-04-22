@@ -1,6 +1,8 @@
 import { ClerkProvider, Show, SignInButton, SignUpButton, UserButton } from '@clerk/nextjs'
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Script from "next/script";
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,7 +25,9 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ClerkProvider>
+        <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="beforeInteractive"/>
+
+        <ClerkProvider >
           {children}
         </ClerkProvider>
       </body>
