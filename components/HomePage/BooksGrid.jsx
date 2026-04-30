@@ -2,15 +2,14 @@ import BookCard from "./BookCard";
 
 export function BooksGrid({books = []}) {
     return (
-        <div>
+        <div className="grid grid-cols-2
+            sm:grid-cols-3
+            lg:grid-cols-4
+            xl:grid-cols-5 gap-x-10
+            gap-y-10 justify-items-start w-full mx-auto">
             {
                 books.map((book) => (
-                    <div
-                        key={book._id}
-                        className="border rounded-lg p-3 flex flex-col gap-2"
-                    >
-                        <BookCard book={book}/>
-                    </div>
+                    <BookCard key={book._id} book={book}/>
                 ))
             }
 
